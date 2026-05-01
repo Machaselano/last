@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Our Story ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: black;
+    color: white;
+    text-align: center;
+}
+
+/* TYPEWRITER */
+.type {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    font-size: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid white;
+    animation: typing 3s steps(30), blink .7s infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink {
+    50% { border-color: transparent }
+}
+
+/* SLIDESHOW */
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 2s;
+}
+
+.active { opacity: 1; }
+
+.zoom { animation: zoom 8s infinite; }
+
+@keyframes zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+/* TEXT STORY */
+.story {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    font-size: 25px;
+    background: rgba(0,0,0,0.4);
+    padding: 10px;
+}
+
+/* PARTICLES */
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    animation: float 5s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); opacity:0;}
+    to { transform: translateY(-10vh); opacity:1;}
+}
+
+/* ENDING */
+.end {
+    position: absolute;
+    top: 35%;
+    width: 100%;
+    font-size: 35px;
+    animation: fadeIn 3s;
+}
+
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+/* CONFETTI */
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: red;
+    animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+    from {transform: translateY(-10px);}
+    to {transform: translateY(100vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="opening" class="type"></div>
+
+<img src="foto1.jpg" class="slide active zoom">
+<img src="foto2.jpg" class="slide zoom">
+<img src="foto3.jpg" class="slide zoom">
+
+<div class="story" id="story"></div>
+
+<audio autoplay loop>
+<source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3">
+</audio>
+
+<script>
+const nama = prompt("Nama dia ❤️:");
+
+const opening = document.getElementById("opening");
+opening.innerHTML = "Ini cerita aku & " + nama + " 💖";
+
+const slides = document.querySelectorAll(".slide");
+const story = document.getElementById("story");
+
+const texts = [
+    "Semua berawal dari Syuting bareng 😊",
+    "Tapi entah kenapa... kamu jadi spesial 💕",
+    "Hari demi hari, aku makin nyaman 😌",
+    "Dan sekarang...",
+    "Aku gak bisa bayangin hidup tanpa kamu ❤️"
+];
+
+let i = 0;
+
+/* PARTICLES */
+function sparkle(){
+    const s = document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*window.innerWidth+"px";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),5000);
+}
+setInterval(sparkle,200);
+
+/* START FILM */
+setTimeout(()=>{
+    opening.style.display="none";
+    playStory();
+},3500);
+
+function playStory(){
+    if(i >= texts.length){
+        ending();
+        return;
+    }
+
+    slides.forEach(s=>s.classList.remove("active"));
+    slides[i % slides.length].classList.add("active");
+
+    story.innerHTML = texts[i];
+    i++;
+
+    setTimeout(playStory,4000);
+}
+
+/* ENDING */
+function ending(){
+    document.body.innerHTML = `
+        <div class="end">
+            <h1>Aku sayang kamu ${keysa} ❤️</h1>
+            <p>Selamanya ya? 💍</p>
+        </div>
+    `;
+
+    /* CONFETTI */
+    setInterval(()=>{
+        const c = document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*window.innerWidth+"px";
+        c.style.background=["red","pink","white"][Math.floor(Math.random()*3)];
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),4000);
+    },100);
+}
+</script>
+
+</body>
+</html>
